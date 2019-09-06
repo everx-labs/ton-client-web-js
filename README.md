@@ -1,2 +1,2 @@
-# ton-client-web-js
-TON Client Library for Web Browsers
+# ton-sdk-wasm
+TON SDK Client Library for Web
