@@ -5,7 +5,7 @@
 	"scripts": {
 		"install": "node install.js"
 	},
-	"keywords": ["TON", "Javascript", "API"],
+	"keywords": ["TON", "Javascript", "API", "Client"],
 	"author": "TON DEV SOLUTIONS LTD.",
 	"license": "SEE LICENSE IN LICENSE",
 	"dependencies": {
