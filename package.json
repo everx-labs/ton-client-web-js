@@ -5,6 +5,9 @@
 	"scripts": {
 		"install": "node install.js"
 	},
+	"keywords": ["TON", "Javascript", "API"],
+	"author": "TON DEV SOLUTIONS LTD.",
+	"license": "https://ton.dev/licenses",
 	"dependencies": {
 		"ton-client-js": "git@github.com:tonlabs/ton-client-js.git"
 	},
