@@ -7,7 +7,7 @@
 	},
 	"keywords": ["TON", "Javascript", "API"],
 	"author": "TON DEV SOLUTIONS LTD.",
-	"license": "https://ton.dev/licenses",
+	"license": "SEE LICENSE IN LICENSE",
 	"dependencies": {
 		"ton-client-js": "git@github.com:tonlabs/ton-client-js.git"
 	},
