@@ -19,7 +19,7 @@ self.onmessage = (e) => {
             const module = await WebAssembly.compile(bytes);
             wrapper = eval(setup.wasmWrapper);
             wasm = (await WebAssembly.instantiate(module, {
-                './tonsdk.js': wrapper
+                './ton_client_web.js': wrapper
             })).exports;
             wrapper.setup(wasm);
             postMessage({
