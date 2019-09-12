@@ -15,7 +15,7 @@
 	  },
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
-		"ton-client-js": "git@github.com:tonlabs/ton-client-js.git"
+		"ton-client-js": "^0.11.8"
 	},
 	"main": "index.js"
 }
