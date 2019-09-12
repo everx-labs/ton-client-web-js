@@ -6,7 +6,9 @@ const http = require('http');
 const zlib = require('zlib');
 
 const p = os.platform();
-const v = process.env.npm_package_version.split('.').join('_');
+const binVersion = process.env.npm_package_binVersion || process.env.npm_package_version;
+const bv = binVersion.split('.').join('_');
+
 const root = process.cwd();
 const binariesHost = 'sdkbinaries.tonlabs.io';
 
@@ -96,8 +98,8 @@ function stringifyScript(s) {
 }
 
 async function main() {
-    await dl('tonclient.wasm', `tonclient_${v}_wasm`);
-    await dl('tonclient.wasm.js', `tonclient_${v}_wasm_js`);
+    await dl('tonclient.wasm', `tonclient_${bv}_wasm`);
+    await dl('tonclient.wasm.js', `tonclient_${bv}_wasm_js`);
     process.chdir(root);
     const worker = stringifyScript(fs.readFileSync(path.join(root, 'worker.js'), 'utf-8'));
 
