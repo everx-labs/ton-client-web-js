@@ -1,7 +1,7 @@
 {
 	"name": "ton-client-web-js",
-	"version": "0.12.0",
-	"binVersion": "0.12.0",
+	"version": "0.13.0",
+	"binVersion": "0.13.0",
 	"description": "TON Client Library for Web",
 	"scripts": {
 		"install": "node install.js"
