@@ -53,7 +53,8 @@ const createLibrary = async () => {
             activeRequests.delete(response.id);
             if (activeRequest.callback) {
                 let { result } = response;
-                result = result.replace('﻿{', '{').replace('}', '}').replace('﻿"', '"');
+                // Remove BOM from result
+                result = result.charCodeAt(0) === 0xFEFF ? result.substr(1) : result;
                 const { result_json, error_json } = JSON.parse(result);
                 activeRequest.callback(result_json, error_json);
             }
