@@ -52,7 +52,9 @@ const createLibrary = async () => {
             }
             activeRequests.delete(response.id);
             if (activeRequest.callback) {
-                const { result_json, error_json } = JSON.parse(response.result);
+                let { result } = response;
+                result = result.replace('﻿{', '{').replace('}', '}').replace('﻿"', '"');
+                const { result_json, error_json } = JSON.parse(result);
                 activeRequest.callback(result_json, error_json);
             }
         }
@@ -79,4 +81,3 @@ TONClient.setLibrary({
 module.exports = {
     TONClient
 };
-
