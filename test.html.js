@@ -1,4 +1,4 @@
-const inlineAssetsLoader = import('./inline-assets');
+const inlineAssetsLoader = import('./inline-assets.js');
 
 const createLibrary = async () => {
     const inlineAssets = (await inlineAssetsLoader).default;
@@ -72,14 +72,21 @@ const createLibrary = async () => {
     });
 };
 
-const { TONClient } = require('ton-client-js');
-TONClient.setLibrary({
-    fetch,
-    WebSocket,
-    createLibrary
-});
-
-module.exports = {
-    TONClient
+window.onload = () => {
+    (async () => {
+        const library = await createLibrary();
+        const request = (method, params) => {
+            return new Promise((resolve, reject) => {
+                library.request(method, params, (result, err) => {
+                    if (err !== '') {
+                        reject(err);
+                    } else {
+                        resolve(JSON.parse(result));
+                    }
+                });
+            });
+        };
+        const version = await request('version', '12');
+        document.body.innerText = `TON Client Version: ${version}`;
+    })();
 };
-

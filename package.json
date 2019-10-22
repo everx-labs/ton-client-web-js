@@ -1,18 +1,23 @@
 {
 	"name": "ton-client-web-js",
-	"version": "0.14.0",
+	"version": "0.14.1",
 	"binVersion": "0.14.0",
 	"description": "TON Client Library for Web",
 	"scripts": {
 		"install": "node install.js"
 	},
-	"keywords": ["TON", "Javascript", "API", "Client"],
+	"keywords": [
+		"TON",
+		"Javascript",
+		"API",
+		"Client"
+	],
 	"author": "TON DEV SOLUTIONS LTD.",
 	"license": "SEE LICENSE IN LICENSE",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/tonlabs/ton-client-web-js.git"
-	  },
+	},
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
 		"ton-client-js": "^0.14.0"
