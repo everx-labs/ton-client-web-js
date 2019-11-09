@@ -1,6 +1,8 @@
 # ton-client-web-js
 
-TON SDK Client Library for Web
+TON Labs SDK Client Library for Web
+
+See https://docs.ton.dev for documentation
 
 ---
 Copyright 2018-2019 TON DEV SOLUTIONS LTD.
