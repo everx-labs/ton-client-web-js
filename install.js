@@ -1,13 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
-const https = require('https');
 const http = require('http');
 const zlib = require('zlib');
 
-const p = os.platform();
-const binVersion = process.env.npm_package_binVersion || process.env.npm_package_version;
-const bv = binVersion.split('.').join('_');
+const v = process.env.npm_package_version.split('.');
+const binariesVersion = `${v[0]}.${v[1]}.${~~(Number.parseInt(v[2]) / 100) * 100}`;
+const bv = binariesVersion.split('.').join('_');
 
 const root = process.cwd();
 const binariesHost = 'sdkbinaries.tonlabs.io';

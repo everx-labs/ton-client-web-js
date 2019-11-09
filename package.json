@@ -1,7 +1,6 @@
 {
 	"name": "ton-client-web-js",
-	"version": "0.14.1",
-	"binVersion": "0.14.0",
+	"version": "0.16.0",
 	"description": "TON Client Library for Web",
 	"scripts": {
 		"install": "node install.js"
@@ -20,7 +19,7 @@
 	},
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
-		"ton-client-js": "^0.14.0"
+		"ton-client-js": "git@github.com:tonlabs/ton-client-js.git#0.16.0-rc"
 	},
 	"main": "index.js"
 }
