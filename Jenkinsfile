@@ -6,7 +6,7 @@ pipeline {
         parallelsAlwaysFailFast()
     }
     stages {
-        stage('Started') { 
+        stage('Started') {
             steps {
                 echo "Job: ${JOB_NAME}"
             }
