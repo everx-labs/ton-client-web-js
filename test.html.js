@@ -1,7 +1,7 @@
 let prev = Date.now() / 1000;
 function logTime(message) {
     const now = Date.now() / 1000;
-    console.log(message, now, String((now - prev).toFixed(3)));
+    console.log("main", `${message}\t${now}\t${String((now - prev).toFixed(3))}`);
     prev = now;
 }
 
