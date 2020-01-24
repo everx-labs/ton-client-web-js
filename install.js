@@ -126,7 +126,7 @@ function getIndexScript() {
 }
 
 async function main() {
-    // await dl('tonclient.wasm', `tonclient_${bv}_wasm`);
+    await dl('tonclient.wasm', `tonclient_${bv}_wasm`);
     await dl('tonclient.wasm.js', `tonclient_${bv}_wasm_js`);
     process.chdir(root);
 
