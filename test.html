@@ -4,7 +4,41 @@
     <meta charset="UTF-8">
     <title>Test TON Client</title>
 </head>
-<script language="JavaScript" src="test.html.js">
+<script type="module">
+    import { clientPlatform, setWasmOptions } from './index.js';
+
+    function debugLog(message) {
+        document.body.insertAdjacentHTML("beforeend", `<p>${message}</p>`);
+    }
+
+    window.onload = () => {
+        (async () => {
+            const start = Date.now();
+            setWasmOptions({
+                binaryURL: './tonclient.wasm',
+                debugLog,
+            });
+            const core = await clientPlatform.createLibrary();
+            const request = (method, params) => {
+                return new Promise((resolve, reject) => {
+                    core.request(method, params, (result, err) => {
+                        if (err !== '') {
+                            reject(err);
+                        } else {
+                            resolve(JSON.parse(result));
+                        }
+                    });
+                });
+            };
+            const version = await request('version', '');
+            const elapsed = Date.now() - start;
+            document.body.insertAdjacentHTML("beforeend", `
+        <p>TON Client Version: ${version}</p>
+        <p>Time elapsed: ${elapsed}</p>
+        `);
+        })();
+    };
+
 </script>
 <body>
 

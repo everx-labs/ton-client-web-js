@@ -78,32 +78,23 @@ async function dl(dst, src) {
     process.stdout.write('\n');
 }
 
-function replaceAll(s, pairs) {
-    let result = s;
-    for (const pair of pairs) {
-        result = result.split(pair[0]).join(pair[1]);
+function scriptToStringLiteral(s) {
+    return `\`${s.split('`').join('\\``')}\``;
+}
+
+function getTemplate(name) {
+    const template = fs.readFileSync(path.join(root, name), 'utf-8').split('//---');
+    if (template.length > 1) {
+        template.shift();
     }
-    return result;
+    return template.join('');
 }
 
-function stringifyScript(s) {
-    return replaceAll(s, [
-        ['\r', '\\r'],
-        ['\n', '\\n'],
-        ['\t', '\\t'],
-        ['\'', '\\\''],
-    ]);
-}
-
-async function main() {
-    await dl('tonclient.wasm', `tonclient_${bv}_wasm`);
-    await dl('tonclient.wasm.js', `tonclient_${bv}_wasm_js`);
-    process.chdir(root);
-    const worker = stringifyScript(fs.readFileSync(path.join(root, 'worker.js'), 'utf-8'));
-
-    let wasmWrapper = fs.readFileSync(path.join(root, 'tonclient.wasm.js'), 'utf-8');
-    wasmWrapper = wasmWrapper.replace(/^import \* as wasm from .*$/gm,
-        `(function() {
+function getWasmWrapperScript() {
+    let script = fs.readFileSync(path.join(root, 'tonclient.wasm.js'), 'utf-8');
+    script = script.replace(/^import \* as wasm from .*$/gm,
+        `
+const wasmWrapper = (function() {
 let wasm = null;
 const result = {
     setup: (newWasm) => {
@@ -111,26 +102,38 @@ const result = {
     },
 };
 `);
-    wasmWrapper = wasmWrapper.replace(/^export const /gm, 'result.');
-    wasmWrapper = wasmWrapper.replace(/^export function (\w+)/gm, 'result.$1 = function');
-    wasmWrapper +=
+    script = script.replace(/^export const /gm, 'result.');
+    script = script.replace(/^export function (\w+)/gm, 'result.$1 = function');
+    script +=
         `   return result;
 })()`;
-    wasmWrapper = stringifyScript(wasmWrapper);
+    return script;
+}
 
-    const wasmBytes = fs.readFileSync(path.join(root, 'tonclient.wasm'));
-    const wasmBase64 = wasmBytes.toString('base64').match(/.{1,1000}/g).join('\', \r\n\'');
-    const inlineAssets =
-        `const assets = {
-            worker: '${worker}',
-            wasmWrapper: '${wasmWrapper}',
-            wasmBase64: ['${wasmBase64}']
-        };
-        export default assets;
-        `;
-    fs.writeFileSync(path.join(root, 'inline-assets.js'), inlineAssets);
-    console.log('"inline-assets.js" have generated from "tonclient.wasm", "tonclient.wasm.js" and "worker.js"');
-    fs.unlinkSync(path.join(root, 'tonclient.wasm'));
+function getWorkerScript() {
+    return [
+        getWasmWrapperScript(),
+        getTemplate('worker-template.js')
+    ].join('\n');
+}
+
+function getIndexScript() {
+    const workerScript = getWorkerScript();
+    return [
+        `const workerScript = ${scriptToStringLiteral(workerScript)};`,
+        getTemplate('index-template.js')
+    ].join('\n');
+}
+
+async function main() {
+    // await dl('tonclient.wasm', `tonclient_${bv}_wasm`);
+    await dl('tonclient.wasm.js', `tonclient_${bv}_wasm_js`);
+    process.chdir(root);
+
+    let indexScript = getIndexScript();
+    fs.writeFileSync(path.join(root, 'index.js'), indexScript);
+
+    console.log('"index.js" have generated from "index-template.js" and "worker-template.js"');
     fs.unlinkSync(path.join(root, 'tonclient.wasm.js'));
 }
 

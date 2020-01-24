@@ -1,9 +1,21 @@
-const inlineAssetsLoader = import('./inline-assets.js');
+const workerScript = '';
 
-const createLibrary = async () => {
-    const inlineAssets = (await inlineAssetsLoader).default;
+//---
+
+const wasmOptions = {
+    debugLog: null,
+    binaryURL: '',
+};
+
+function debugLog(message) {
+    if (wasmOptions.debugLog) {
+        wasmOptions.debugLog(message);
+    }
+}
+
+export const createLibrary = async () => {
     const workerBlob = new Blob(
-        [inlineAssets.worker],
+        [workerScript],
         { type: 'application/javascript' }
     );
     const workerUrl = URL.createObjectURL(workerBlob);
@@ -61,32 +73,36 @@ const createLibrary = async () => {
         }
     };
 
+    const e = Date.now();
+    let wasmModule;
+    if (!wasmOptions.binaryURL) {
+    }
+    const fetched = fetch(wasmOptions.binaryURL);
+    if (WebAssembly.compileStreaming) {
+        debugLog('compileStreaming binary');
+        wasmModule = await WebAssembly.compileStreaming(fetched);
+    } else {
+        debugLog('compile binary');
+        wasmModule = await WebAssembly.compile(await (await fetched).arrayBuffer());
+    }
+    debugLog(`compile time ${Date.now() - e}`);
+
     return new Promise((resolve) => {
         libraryResolver = resolve;
         worker.postMessage({
             setup: {
-                wasmBase64: inlineAssets.wasmBase64.join(''),
-                wasmWrapper: inlineAssets.wasmWrapper,
+                wasmModule,
             }
         });
     });
 };
 
-window.onload = () => {
-    (async () => {
-        const library = await createLibrary();
-        const request = (method, params) => {
-            return new Promise((resolve, reject) => {
-                library.request(method, params, (result, err) => {
-                    if (err !== '') {
-                        reject(err);
-                    } else {
-                        resolve(JSON.parse(result));
-                    }
-                });
-            });
-        };
-        const version = await request('version', '12');
-        document.body.innerText = `TON Client Version: ${version}`;
-    })();
+export function setWasmOptions(options) {
+    Object.assign(wasmOptions, options);
+}
+
+export const clientPlatform = {
+    fetch,
+    WebSocket,
+    createLibrary,
 };
