@@ -82,6 +82,10 @@ function scriptToStringLiteral(s) {
     return `\`${s.split('`').join('\\``')}\``;
 }
 
+function getClientVersion() {
+    return JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf-8')).version;
+}
+
 function getTemplate(name) {
     const template = fs.readFileSync(path.join(root, name), 'utf-8').split('//---');
     if (template.length > 1) {
@@ -113,16 +117,18 @@ const result = {
 function getWorkerScript() {
     return [
         getWasmWrapperScript(),
-        getTemplate('worker-template.js')
+        getTemplate('install-worker.js')
     ].join('\n');
 }
 
 function getIndexScript() {
     const workerScript = getWorkerScript();
-    return [
+    const script = [
+        `import { TONClient } from 'ton-client-js';`,
         `const workerScript = ${scriptToStringLiteral(workerScript)};`,
-        getTemplate('index-template.js')
-    ].join('\n');
+        getTemplate('install-index.js').replace('__VERSION__', getClientVersion()),
+    ];
+    return script.join('\n');
 }
 
 async function main() {
@@ -130,8 +136,7 @@ async function main() {
     await dl('tonclient.wasm.js', `tonclient_${bv}_wasm_js`);
     process.chdir(root);
 
-    let indexScript = getIndexScript();
-    fs.writeFileSync(path.join(root, 'index.js'), indexScript);
+    fs.writeFileSync(path.join(root, 'index.js'), getIndexScript());
 
     console.log('"index.js" have generated from "index-template.js" and "worker-template.js"');
     fs.unlinkSync(path.join(root, 'tonclient.wasm.js'));

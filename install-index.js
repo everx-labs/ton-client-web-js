@@ -1,10 +1,15 @@
+
+// This file is just a template that used to generate index.js at npm installation stage
+
+import { TONClient } from 'ton-client-js';
+
 const workerScript = '';
 
 //---
 
 const wasmOptions = {
     debugLog: null,
-    binaryURL: '',
+    binaryURL: '/tonclient.wasm',
 };
 
 function debugLog(message) {
@@ -23,6 +28,9 @@ export const createLibrary = async () => {
 
     const activeRequests = new Map();
 
+    // Deferred requests are accumulated before WASM module have been loaded
+    let deferredRequests = [];
+
     let nextActiveRequestId = 1;
 
     worker.onerror = (evt) => {
@@ -31,28 +39,39 @@ export const createLibrary = async () => {
 
     const library = {
         request: (method, params, callback) => {
+            if (method === 'version') {
+                callback('"__VERSION__"', '');
+                return;
+            }
             const id = nextActiveRequestId;
             nextActiveRequestId += 1;
+            const request = {
+                id,
+                method,
+                params,
+            };
+            const isDeferredSetup = (method === 'setup') && (deferredRequests !== null);
             activeRequests.set(id, {
-                callback
+                callback: isDeferredSetup ? () => {} : callback
             });
-            worker.postMessage({
-                request: {
-                    id,
-                    method,
-                    params
-                }
-            });
+            if (deferredRequests !== null) {
+                deferredRequests.push(request);
+            } else {
+                worker.postMessage({ request });
+            }
+            if (isDeferredSetup) {
+                callback('', '');
+            }
         },
     };
-    let libraryResolver = null;
 
     worker.onmessage = (evt) => {
         const setup = evt.data.setup;
         if (setup) {
-            if (libraryResolver) {
-                libraryResolver(library);
+            for (const request of deferredRequests) {
+                worker.postMessage({ request });
             }
+            deferredRequests = null;
             return;
         }
 
@@ -73,28 +92,26 @@ export const createLibrary = async () => {
         }
     };
 
-    const e = Date.now();
-    let wasmModule;
-    if (!wasmOptions.binaryURL) {
-    }
-    const fetched = fetch(wasmOptions.binaryURL);
-    if (WebAssembly.compileStreaming) {
-        debugLog('compileStreaming binary');
-        wasmModule = await WebAssembly.compileStreaming(fetched);
-    } else {
-        debugLog('compile binary');
-        wasmModule = await WebAssembly.compile(await (await fetched).arrayBuffer());
-    }
-    debugLog(`compile time ${Date.now() - e}`);
-
-    return new Promise((resolve) => {
-        libraryResolver = resolve;
+    (async () => {
+        const e = Date.now();
+        let wasmModule;
+        const fetched = fetch(wasmOptions.binaryURL);
+        if (WebAssembly.compileStreaming) {
+            debugLog('compileStreaming binary');
+            wasmModule = await WebAssembly.compileStreaming(fetched);
+        } else {
+            debugLog('compile binary');
+            wasmModule = await WebAssembly.compile(await (await fetched).arrayBuffer());
+        }
         worker.postMessage({
             setup: {
                 wasmModule,
             }
         });
-    });
+        debugLog(`compile time ${Date.now() - e}`);
+    })();
+
+    return Promise.resolve(library);
 };
 
 export function setWasmOptions(options) {
@@ -106,3 +123,11 @@ export const clientPlatform = {
     WebSocket,
     createLibrary,
 };
+
+TONClient.setLibrary({
+    fetch,
+    WebSocket,
+    createLibrary
+});
+
+export default TONClient;

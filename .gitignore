@@ -3,3 +3,5 @@
 /node_modules
 /package-lock.json
 /tonclient.wasm
+/example/node_modules/
+/example/package-lock.json
