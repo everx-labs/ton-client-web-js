@@ -18,7 +18,7 @@ function debugLog(message) {
     }
 }
 
-export const createLibrary = async () => {
+const createLibrary = async () => {
     const workerBlob = new Blob(
         [workerScript],
         { type: 'application/javascript' }
@@ -114,11 +114,11 @@ export const createLibrary = async () => {
     return Promise.resolve(library);
 };
 
-export function setWasmOptions(options) {
+function setWasmOptions(options) {
     Object.assign(wasmOptions, options);
 }
 
-export const clientPlatform = {
+const clientPlatform = {
     fetch,
     WebSocket,
     createLibrary,
@@ -130,4 +130,9 @@ TONClient.setLibrary({
     createLibrary
 });
 
-export default TONClient;
+export {
+    createLibrary,
+    setWasmOptions,
+    clientPlatform,
+    TONClient
+};
