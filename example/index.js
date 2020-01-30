@@ -1,4 +1,4 @@
-import TONClient, { setWasmOptions } from 'ton-client-web-js';
+import { TONClient, setWasmOptions } from 'ton-client-web-js';
 
 function debugLog(message) {
     document.body.insertAdjacentHTML("beforeend", `<p>${message}</p>`);
