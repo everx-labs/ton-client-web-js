@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Breaking Compatibility
 - Web applications that used this library must publish `tonclient.wasm` to website. If `tonclient.wasm` doesn't published in root then module path must be specified in `setWasmOptions`:
     ```javascript
-    import TONClient, { setWasmOptions } from 'ton-client-web-js';
+    import { TONClient, setWasmOptions } from 'ton-client-web-js';
     ...
     setWasmOptions({
         binaryURL: '/modules/tonclient.wasm',
