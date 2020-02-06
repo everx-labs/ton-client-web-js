@@ -13,11 +13,13 @@ window.addEventListener('load', () => {
         const client = await TONClient.create({
             servers: ['net.ton.dev']
         });
-        debugLog(`Client version: ${await client.config.getVersion()}`);
         debugLog(`Client creation time: ${(Date.now() - createStart)}`);
+        debugLog(`Client version: ${await client.config.getVersion()}`);
+        debugLog(`Client connected to: ${await client.config.data.servers}`);
         const queryStart = Date.now();
         const accounts = await client.queries.accounts.query({}, 'id balance', [{path:'balance', direction:'DESC'}], 10);
-        debugLog(`<table>${accounts.map(x => `<tr><td>${x.id}</td><td>${BigInt(x.balance)}</td></tr>`).join('')}</table>`);
         debugLog(`Query time: ${(Date.now() - queryStart)}`);
+        debugLog(`<table>${accounts.map(x => `<tr><td>${x.id}</td><td>${BigInt(x.balance)}</td></tr>`).join('')}</table>`);
+        debugLog(`Now is: ${new Date()}`);
     })();
 });
