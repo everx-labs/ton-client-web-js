@@ -71,8 +71,7 @@ pipeline {
                         ],
                     ] 
 
-                    build job: "Integration/integration-tests/feature-wasm", parameters: params
-                    // build job: "Integration/integration-tests/master", parameters: params
+                    build job: "Integration/integration-tests/master", parameters: params
                 }
             }
         }
