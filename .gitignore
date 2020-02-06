@@ -6,3 +6,6 @@
 /tonclient.wasm
 /example/node_modules/
 /example/package-lock.json
+Jenkinsfile
+install.sh
+uninstall.sh
