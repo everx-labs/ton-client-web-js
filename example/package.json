@@ -21,7 +21,7 @@
 	},
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
-		"ton-client-js": "^0.19.0",
+		"ton-client-js": "git+ssh://git@github.com/tonlabs/ton-client-js.git#0.20.0-rc",
 		"ton-client-web-js": "../"
 	},
 	"devDependencies": {
