@@ -32,9 +32,8 @@ pipeline {
                     currentBuild.description = C_TEXT
                 }
             }
-
         }
-        stage('Started') {
+        stage('Run tests') {
             steps {
                 echo "Job: ${JOB_NAME}"
                 script {
