@@ -21,7 +21,6 @@
 	},
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
-		"ton-client-js": "^0.20.0",
 		"ton-client-web-js": "../"
 	},
 	"devDependencies": {
