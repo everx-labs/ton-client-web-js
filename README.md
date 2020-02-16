@@ -2,6 +2,20 @@
 
 TON Labs SDK Client Library for Web
 
+## Run an example:
+* Download and run an example:
+```
+$ git clone https://github.com/tonlabs/ton-client-web-js.git
+$ cd ton-client-web-js
+$ npm install
+$ cd example
+$ npm install
+$ npm run web
+```
+* Open http://localhost:4000/ in the browser
+
+The example connects to net.ton.dev and gives you a list of top ten accounts ordered by balance.
+
 See https://docs.ton.dev for documentation
 
 ---
