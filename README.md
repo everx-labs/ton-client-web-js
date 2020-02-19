@@ -14,7 +14,7 @@ $ npm run web
 ```
 * Open http://localhost:4000/ in the browser
 
-The example connects to net.ton.dev and gives you a list of top ten accounts ordered by balance.
+This example connects to net.ton.dev and returns the top 10 accounts holding the most grams (filtered by balance, top to bottom).
 
 See https://docs.ton.dev for documentation
 
