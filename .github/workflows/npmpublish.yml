@@ -1,4 +1,4 @@
-name: Publish on NPMJS if release created
+name: Publish npm
 
 on:
   release:
