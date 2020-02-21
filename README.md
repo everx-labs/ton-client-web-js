@@ -2,6 +2,8 @@
 
 TON Labs SDK Client Library for Web
 
+![npm publish](https://github.com/tonlabs/ton-client-web-js/workflows/npm%20publish/badge.svg)
+
 ## Run an example:
 * Download and run an example:
 ```
