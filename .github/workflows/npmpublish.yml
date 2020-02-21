@@ -20,5 +20,3 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
-        with:
-          args: 'Release {{ EVENT_PAYLOAD.release.name }} (tag {{ EVENT_PAYLOAD.release.tag_name }}) has been published to NPMJS.org; see details on https://www.npmjs.com/package/ton-client-web-js'
