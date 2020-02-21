@@ -9,3 +9,4 @@
 Jenkinsfile
 install.sh
 uninstall.sh
+/.github/workflows/
