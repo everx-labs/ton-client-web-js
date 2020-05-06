@@ -8,7 +8,7 @@ const binariesVersion = `${v[0]}.${v[1]}.${~~(Number.parseInt(v[2]) / 100) * 100
 const bv = binariesVersion.split('.').join('_');
 
 const root = process.cwd();
-const binariesHost = 'sdkbinaries.tonlabs.io';
+const binariesHost = 'sdkbinaries-ws.tonlabs.io';
 
 
 function downloadAndGunzip(dest, url) {
