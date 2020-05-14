@@ -4,9 +4,7 @@ const http = require('http');
 const zlib = require('zlib');
 const {version, binaries_version} = require('./package.json');
 
-const v = version.split('.');
-const binariesVersion = binaries_version || `${v[0]}.${v[1]}.${~~(Number.parseInt(v[2]) / 100) * 100}`;
-const bv = binariesVersion.split('.').join('_');
+const bv = (binaries_version || version).split('.')[0];
 
 const root = process.cwd();
 const binariesHost = 'sdkbinaries-ws.tonlabs.io';
