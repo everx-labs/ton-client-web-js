@@ -2,13 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const zlib = require('zlib');
+const {version, binaries_version} = require('./package.json');
 
-const v = process.env.npm_package_version.split('.');
-const binariesVersion = `${v[0]}.${v[1]}.${~~(Number.parseInt(v[2]) / 100) * 100}`;
-const bv = binariesVersion.split('.').join('_');
+const bv = (binaries_version || version).split('.')[0];
 
 const root = process.cwd();
-const binariesHost = 'sdkbinaries.tonlabs.io';
+const binariesHost = 'sdkbinaries-ws.tonlabs.io';
 
 
 function downloadAndGunzip(dest, url) {
@@ -21,8 +20,8 @@ function downloadAndGunzip(dest, url) {
                 });
                 return;
             }
-            fs.mkdirSync(path.dirname(path.resolve(dest)), { recursive: true });
-            let file = fs.createWriteStream(dest, { flags: "w" });
+            fs.mkdirSync(path.dirname(path.resolve(dest)), {recursive: true});
+            let file = fs.createWriteStream(dest, {flags: "w"});
             let opened = false;
             const failed = (err) => {
                 if (file) {
@@ -73,7 +72,7 @@ function downloadAndGunzip(dest, url) {
 async function dl(dst, src) {
     const dst_path = `${root}/${dst}`;
     const src_url = `http://${binariesHost}/${src}.gz`;
-    process.stdout.write(`Downloading ${dst} from ${binariesHost} ...`);
+    process.stdout.write(`Downloading ${dst} from ${src_url} to ${dst_path} ...`);
     await downloadAndGunzip(dst_path, src_url);
     process.stdout.write('\n');
 }
@@ -96,7 +95,8 @@ function getTemplate(name) {
 
 function getWasmWrapperScript() {
     let script = fs.readFileSync(path.join(root, 'tonclient.wasm.js'), 'utf-8');
-    script = script.replace(/^import \* as wasm from .*$/gm,
+    script = script.replace(
+        /^import \* as wasm from .*$/gm,
         `
 const wasmWrapper = (function() {
 let wasm = null;
@@ -105,7 +105,8 @@ const result = {
         wasm = newWasm;
     },
 };
-`);
+`,
+    );
     script = script.replace(/^export const /gm, 'result.');
     script = script.replace(/^export function (\w+)/gm, 'result.$1 = function');
     script +=
@@ -117,7 +118,7 @@ const result = {
 function getWorkerScript() {
     return [
         getWasmWrapperScript(),
-        getTemplate('install-worker.js')
+        getTemplate('install-worker.js'),
     ].join('\n');
 }
 

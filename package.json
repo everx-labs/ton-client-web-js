@@ -1,6 +1,7 @@
 {
 	"name": "ton-client-web-js",
-	"version": "0.22.0",
+	"version": "0.23.0",
+	"binaries_version": "0.23.1",
 	"description": "TON Client Library for Web",
 	"scripts": {
 		"install": "node install.js"
@@ -12,14 +13,20 @@
 		"Client"
 	],
 	"author": "TON DEV SOLUTIONS LTD.",
-	"license": "SEE LICENSE IN LICENSE",
+	"license": "Apache-2.0",
+	"licenses": [
+	  {
+		"type": "Apache-2.0",
+		"url": "http://www.apache.org/licenses/LICENSE-2.0"
+	  }
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/tonlabs/ton-client-web-js.git"
 	},
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
-		"ton-client-js": "^0.22.0"
+		"ton-client-js": "^0.23.0"
 	},
 	"main": "index.js"
 }
