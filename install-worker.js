@@ -9,7 +9,7 @@ self.onmessage = (e) => {
     if (setup) {
         (async () => {
             const instance = (await WebAssembly.instantiate(setup.wasmModule, {
-                './ton_client_web.js': wasmWrapper
+                wbg: wasmWrapper.wbg
             })).exports;
             wasmWrapper.setup(instance);
             postMessage({

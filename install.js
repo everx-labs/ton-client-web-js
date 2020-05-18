@@ -96,7 +96,7 @@ function getTemplate(name) {
 function getWasmWrapperScript() {
     let script = fs.readFileSync(path.join(root, 'tonclient.wasm.js'), 'utf-8');
     script = script.replace(
-        /^import \* as wasm from .*$/gm,
+        /^let wasm;$/gm,
         `
 const wasmWrapper = (function() {
 let wasm = null;
@@ -109,6 +109,10 @@ const result = {
     );
     script = script.replace(/^export const /gm, 'result.');
     script = script.replace(/^export function (\w+)/gm, 'result.$1 = function');
+    script = script.replace(/^async function load\([^]*?^}$/gm, '');
+    script = script.replace(/^async function init\([^]*?^\s*const imports = {};$/gm, '');
+    script = script.replace(/^\s*if \(typeof input === [^]*/gm, '');
+    script = script.replace(/^\s*imports\.wbg/gm, '    result.wbg');
     script +=
         `   return result;
 })()`;
