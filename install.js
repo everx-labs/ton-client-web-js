@@ -4,7 +4,7 @@ const http = require('http');
 const zlib = require('zlib');
 const { version, binaries_version } = require('./package.json');
 require('dotenv').config();
-const bv = process.env.BINARIES_VERSION ? process.env.BINARIES_VERSION.replace(/\./g, '_') : (binaries_version || version).split('.')[0];
+const bv = process.env.TON_SDK_BIN_VERSION ? process.env.TON_SDK_BIN_VERSION : (binaries_version || version).split('.')[0];
 
 const root = process.cwd();
 const binariesHost = 'sdkbinaries-ws.tonlabs.io';
