@@ -24,7 +24,7 @@
 		"type": "git",
 		"url": "https://github.com/tonlabs/ton-client-web-js.git"
 	},
-	"homepage": "https://ton.dev/node-se",
+	"homepage": "https://docs.ton.dev/",
 	"dependencies": {
 		"ton-client-js": "^0.23.0"
 	},

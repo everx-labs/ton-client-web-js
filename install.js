@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const zlib = require('zlib');
-const {version, binaries_version} = require('./package.json');
-
-const bv = (binaries_version || version).split('.')[0];
+const { version, binaries_version } = require('./package.json');
+require('dotenv').config();
+const bv = process.env.BINARIES_VERSION ? process.env.BINARIES_VERSION.replace(/\./g, '_') : (binaries_version || version).split('.')[0];
 
 const root = process.cwd();
 const binariesHost = 'sdkbinaries-ws.tonlabs.io';
@@ -20,8 +20,8 @@ function downloadAndGunzip(dest, url) {
                 });
                 return;
             }
-            fs.mkdirSync(path.dirname(path.resolve(dest)), {recursive: true});
-            let file = fs.createWriteStream(dest, {flags: "w"});
+            fs.mkdirSync(path.dirname(path.resolve(dest)), { recursive: true });
+            let file = fs.createWriteStream(dest, { flags: "w" });
             let opened = false;
             const failed = (err) => {
                 if (file) {
