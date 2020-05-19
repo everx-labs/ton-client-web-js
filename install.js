@@ -77,70 +77,9 @@ async function dl(dst, src) {
     process.stdout.write('\n');
 }
 
-function scriptToStringLiteral(s) {
-    return `\`${s.split('`').join('\\``')}\``;
-}
-
-function getClientVersion() {
-    return JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf-8')).version;
-}
-
-function getTemplate(name) {
-    const template = fs.readFileSync(path.join(root, name), 'utf-8').split('//---');
-    if (template.length > 1) {
-        template.shift();
-    }
-    return template.join('');
-}
-
-function getWasmWrapperScript() {
-    let script = fs.readFileSync(path.join(root, 'tonclient.wasm.js'), 'utf-8');
-    script = script.replace(
-        /^import \* as wasm from .*$/gm,
-        `
-const wasmWrapper = (function() {
-let wasm = null;
-const result = {
-    setup: (newWasm) => {
-        wasm = newWasm;
-    },
-};
-`,
-    );
-    script = script.replace(/^export const /gm, 'result.');
-    script = script.replace(/^export function (\w+)/gm, 'result.$1 = function');
-    script +=
-        `   return result;
-})()`;
-    return script;
-}
-
-function getWorkerScript() {
-    return [
-        getWasmWrapperScript(),
-        getTemplate('install-worker.js'),
-    ].join('\n');
-}
-
-function getIndexScript() {
-    const workerScript = getWorkerScript();
-    const script = [
-        `import { TONClient } from 'ton-client-js';`,
-        `const workerScript = ${scriptToStringLiteral(workerScript)};`,
-        getTemplate('install-index.js').replace('__VERSION__', getClientVersion()),
-    ];
-    return script.join('\n');
-}
-
 async function main() {
     await dl('tonclient.wasm', `tonclient_${bv}_wasm`);
-    await dl('tonclient.wasm.js', `tonclient_${bv}_wasm_js`);
-    process.chdir(root);
-
-    fs.writeFileSync(path.join(root, 'index.js'), getIndexScript());
-
-    console.log('"index.js" have generated from "index-template.js" and "worker-template.js"');
-    fs.unlinkSync(path.join(root, 'tonclient.wasm.js'));
+    await dl('index.js', `tonclient_${bv}_wasm_js`);
 }
 
 
