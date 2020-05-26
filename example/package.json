@@ -21,6 +21,7 @@
 	},
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
+		"jest-lite": "^1.0.0-alpha.4",
 		"ton-client-web-js": "../"
 	},
 	"devDependencies": {
