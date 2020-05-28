@@ -1,6 +1,6 @@
 {
 	"name": "ton-client-web-js",
-	"version": "0.23.1",
+	"version": "0.24.0",
 	"binaries_version": "0.23.1",
 	"description": "TON Client Library for Web",
 	"scripts": {
@@ -26,7 +26,7 @@
 	},
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
-		"ton-client-js": "^0.23.0"
+		"ton-client-js": "^0.24.0"
 	},
 	"main": "index.js"
 }
