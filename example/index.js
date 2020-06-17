@@ -14,7 +14,7 @@ window.addEventListener('load', () => {
             servers: ['net.ton.dev']
         });
         debugLog(`Client creation time: ${(Date.now() - createStart)}`);
-        debugLog(`Client version: ${await client.config.getVersion()}`);
+        debugLog(`Client uses binary version: ${await client.config.getVersion()}`);
         debugLog(`Client connected to: ${await client.config.data.servers}`);
         const queryStart = Date.now();
         const accounts = await client.queries.accounts.query({}, 'id balance(format:DEC)', [{path:'balance', direction:'DESC'}], 10);
