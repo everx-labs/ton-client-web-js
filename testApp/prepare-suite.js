@@ -6,10 +6,12 @@ const path = require('path');
 const srcTestsPath = path.resolve(__dirname, 'node_modules', 'ton-client-js', '__tests__');
 const dstTestsPath = path.resolve(__dirname, 'suite');
 const coreSourcePath = path.resolve(__dirname, '..', '..', 'TON-SDK', 'ton_client');
-const runEnv = {
-    ...process.env,
-    TC_BIN_SRC: path.resolve(coreSourcePath, 'platforms', 'ton-client-react-native', 'build'),
-};
+const runEnv = { ...process.env };
+
+if (fs.existsSync(coreSourcePath)) {
+    runEnv.TC_BIN_SRC = path.resolve(coreSourcePath, 'platforms', 'ton-client-web', 'build');
+}
+
 
 function run(name, ...args) {
     return new Promise((resolve, reject) => {

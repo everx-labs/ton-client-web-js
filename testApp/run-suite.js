@@ -55,7 +55,6 @@ let success = 0;
 let failure = 0;
 
 function onOutputLine(line) {
-    console.log('>>>', line);
     const startLog = extractReport('[TEST_START]', line);
     if (startLog) {
         return;
@@ -115,11 +114,10 @@ async function main() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     page.on('console', (msg) => {
-        const text = msg.text();
+        const text = `${msg.text()}\n`;
         onTestLog(text);
         if (text.includes('[TEST_COMPLETE]')) {
             (async () => {
-                console.log('>>>', 'complete');
                 await page.close();
                 await browser.close();
                 process.exit(0);
@@ -127,7 +125,6 @@ async function main() {
         }
     });
     await page.goto('http://localhost:4000', {});
-    await browser.close();
 }
 
 

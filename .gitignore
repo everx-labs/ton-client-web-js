@@ -11,3 +11,16 @@ install.sh
 uninstall.sh
 /.github/workflows/
 /testApp/node_modules/
+/testApp/suite/_/assets.js
+/testApp/suite/_/binaries.js
+/testApp/suite/_/giver.js
+/testApp/suite/_/init-tests.js
+/testApp/suite/aggregations.js
+/testApp/suite/auth.js
+/testApp/suite/client.js
+/testApp/suite/contracts.js
+/testApp/suite/crypto.js
+/testApp/suite/deploy-ex.js
+/testApp/suite/queries.js
+/testApp/suite/run-local.js
+/testApp/suite/test-error-messages.js
