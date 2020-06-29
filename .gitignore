@@ -10,3 +10,4 @@ Jenkinsfile
 install.sh
 uninstall.sh
 /.github/workflows/
+/testApp/node_modules/
