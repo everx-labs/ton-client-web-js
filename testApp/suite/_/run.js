@@ -2,15 +2,15 @@ import * as j from 'jest-lite';
 import {tests} from './init-tests';
 
 //IMPORTS
-// import aggregations_suite from '../aggregations.js';
-// import auth_suite from '../auth.js';
-// import client_suite from '../client.js';
-// import contracts_suite from '../contracts.js';
+import aggregations_suite from '../aggregations.js';
+import auth_suite from '../auth.js';
+import client_suite from '../client.js';
+import contracts_suite from '../contracts.js';
 import crypto_suite from '../crypto.js';
-// import deploy_ex_suite from '../deploy-ex.js';
-// import queries_suite from '../queries.js';
-// import run_local_suite from '../run-local.js';
-// import test_error_messages_suite from '../test-error-messages.js';
+import deploy_ex_suite from '../deploy-ex.js';
+import queries_suite from '../queries.js';
+import run_local_suite from '../run-local.js';
+import test_error_messages_suite from '../test-error-messages.js';
 //IMPORTS
 
 export async function startTests(onStateChange) {
