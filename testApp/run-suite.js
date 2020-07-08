@@ -1,12 +1,20 @@
+const os = require('os');
+const runEnv = { ...process.env };
 const {spawn} = require('child_process');
 const puppeteer = require('puppeteer');
+const path = require('path');
 
 function run(name, args, onOutput, onError) {
     return new Promise((resolve, reject) => {
         try {
-            const spawned = spawn(name, args, {
-                env: process.env,
-            });
+            const isWindows = os.platform() === 'win32';
+            const spawned = isWindows
+                ? spawn('cmd.exe', ['/c', name].concat(args), {
+                    env: runEnv,
+                })
+                : spawn(name, args, {
+                    env: runEnv,
+                });
             const errors = [];
             const output = [];
 
@@ -93,10 +101,10 @@ function onTestLog(text) {
 }
 
 function startWebPackDevServer() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => { 
         run(
-            './node_modules/.bin/webpack-dev-server',
-            ['-d', '--config', 'webpack.config.js', '--progress', '--colors', '--host', '0.0.0.0'],
+            path.resolve(__dirname, 'node_modules', '.bin', 'webpack-dev-server'),
+            ['-d', '--config', 'webpack.config.js', '--progress', '--colors', '--host', '127.0.0.1'],
             (text) => {
                 if (text.includes(': Compiled successfully.')) {
                     resolve();

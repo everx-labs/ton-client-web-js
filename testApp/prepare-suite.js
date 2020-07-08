@@ -7,7 +7,6 @@ const srcTestsPath = path.resolve(__dirname, 'node_modules', 'ton-client-js', '_
 const dstTestsPath = path.resolve(__dirname, 'suite');
 const coreSourcePath = path.resolve(__dirname, '..', '..', 'TON-SDK', 'ton_client');
 const runEnv = { ...process.env };
-
 if (fs.existsSync(coreSourcePath)) {
     runEnv.TC_BIN_SRC = path.resolve(coreSourcePath, 'platforms', 'ton-client-web', 'build');
 }
@@ -16,9 +15,14 @@ if (fs.existsSync(coreSourcePath)) {
 function run(name, ...args) {
     return new Promise((resolve, reject) => {
         try {
-            const spawned = spawn(name, args, {
-                env: runEnv,
-            });
+            const isWindows = os.platform() === 'win32';
+            const spawned = isWindows
+                ? spawn('cmd.exe', ['/c', name].concat(args), {
+                    env: runEnv,
+                })
+                : spawn(name, args, {
+                    env: runEnv,
+                });
             const errors = [];
             const output = [];
 
@@ -109,7 +113,7 @@ function rewriteRunScript() {
         `export default {`,
         `    env: {`,
         `        USE_NODE_SE: '${process.env.USE_NODE_SE || 'true'}',`,
-        `        TON_NETWORK_ADDRESS: '${replaceLocalhost(process.env.TON_NETWORK_ADDRESS || 'http://0.0.0.0:8080')}',`,
+        `        TON_NETWORK_ADDRESS: '${replaceLocalhost(process.env.TON_NETWORK_ADDRESS || 'http://127.0.0.1:8080')}',`,
         `    },`,
         `    contracts: {`,
     ];

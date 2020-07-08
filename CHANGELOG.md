@@ -1,6 +1,11 @@
 # Release Notes
 All notable changes to this project will be documented in this file.
 
+## 0.25.0 - Jun 30, 2020
+
+### New
+- `testApp` to run main js test suite inside puppeteer 
+
 ## 0.19.1 - January 29, 2020
 
 ### Fixed
