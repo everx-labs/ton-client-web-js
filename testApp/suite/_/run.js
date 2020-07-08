@@ -38,7 +38,7 @@ export async function startTests(onStateChange) {
                 state.failed += 1;
                 console.log(`[TEST_FAILURE] ${JSON.stringify({
                     name: event.test.name,
-                    error: event.error.toString(),
+                    error: event.error,
                     errors: event.test.errors,
                 })}`);
             } else {

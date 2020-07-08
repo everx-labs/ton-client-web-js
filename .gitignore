@@ -24,3 +24,4 @@ uninstall.sh
 /testApp/suite/queries.js
 /testApp/suite/run-local.js
 /testApp/suite/test-error-messages.js
+/testApp/package-lock.json
