@@ -7,7 +7,7 @@ const srcTestsPath = path.resolve(__dirname, 'node_modules', 'ton-client-js', '_
 const dstTestsPath = path.resolve(__dirname, 'suite');
 const coreSourcePath = path.resolve(__dirname, '..', '..', 'TON-SDK', 'ton_client');
 const runEnv = { ...process.env };
-if (fs.existsSync(coreSourcePath)) {
+if (!runEnv.TC_BIN_SRC && fs.existsSync(coreSourcePath)) {
     runEnv.TC_BIN_SRC = path.resolve(coreSourcePath, 'platforms', 'ton-client-web', 'build');
 }
 

@@ -4,27 +4,13 @@ TON Labs SDK Client Library for Web
 
 ![npm publish](https://github.com/tonlabs/ton-client-web-js/workflows/npm%20publish/badge.svg)
 
-## Run an example:
-* Download and run an example:
-```
-$ git clone https://github.com/tonlabs/ton-client-web-js.git
-$ cd ton-client-web-js
-$ npm install
-$ cd example
-$ npm install
-$ npm run web
-```
-* Open http://localhost:4000/ in the browser
+# Using `ton-client-web-js`
 
-This example connects to net.ton.dev and returns the top 10 accounts holding the most grams (filtered by balance, top to bottom).
+## Requirements
 
+You can run `ton-client-web-js` in a browser.
 
-## Using ton-client-web-js
-
-### Requirements
-You can run ton-client-web-js in a browser.
-
-In this example, we'll use webpack to manage assets. Since it requires[Node.js](nodejs.org), you’ll need to install the latest version.
+In this example, we'll use webpack to manage assets. Since it requires [Node.js](nodejs.org), you’ll need to install the latest version.
 
 Let's start with a clean  [webpack](https://webpack.js.org/) project:
 
