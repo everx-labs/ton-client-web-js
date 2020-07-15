@@ -1,0 +1,10 @@
+.DS_Store
+.gitignore
+.gitattributes
+**/.idea/
+node_modules/
+package-lock.json
+**/*.so
+**/*.a
+/.github/workflows/
+testApp/

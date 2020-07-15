@@ -4,7 +4,7 @@ const http = require('http');
 const zlib = require('zlib');
 const {version} = require('./package.json');
 
-const bv = process.env.TON_SDK_BIN_VERSION || (version).split('.')[0];
+const bv = process.env.TON_SDK_BIN_VERSION || version.split('.')[0];
 
 const root = process.cwd();
 const binariesHost = 'sdkbinaries-ws.tonlabs.io';
@@ -69,13 +69,36 @@ function downloadAndGunzip(dest, url) {
 }
 
 
+// dev_dl - used when this package installed during CI phase or development process.
+// Binaries will be copied from location specified by TC_BIN_SRC environment variable.
+function dev_dl(dst, binSrc) {
+    const srcPath = path.resolve(binSrc, dst);
+    if (!fs.existsSync(srcPath)) {
+        process.stdout.write(`Skipping ${dst} from ${srcPath} ...\n`);
+        return;
+    }
+    process.stdout.write(`Copying ${dst} from ${srcPath} ...\n`);
+    const dstPath = path.resolve(root, dst);
+    const dstDir = path.dirname(path.resolve(dstPath));
+    if (!fs.existsSync(dstDir)) {
+        fs.mkdirSync(dstDir, { recursive: true });
+    }
+    fs.copyFileSync(srcPath, dstPath);
+}
+
+
 async function dl(dst, src) {
-    const dst_path = `${root}/${dst}`;
-    const src_url = `http://${binariesHost}/${src}.gz`;
-    process.stdout.write(`Downloading from ${src_url} to ${dst_path} ...`);
-    await downloadAndGunzip(dst_path, src_url);
+    if ((process.env.TC_BIN_SRC || '') !== '') {
+        dev_dl(dst, process.env.TC_BIN_SRC);
+        return;
+    }
+    const dstPath = path.resolve(root, dst);
+    const srcUrl = `http://${binariesHost}/${src}.gz`;
+    process.stdout.write(`Downloading from ${srcUrl} to ${dstPath} ...`);
+    await downloadAndGunzip(dstPath, srcUrl);
     process.stdout.write('\n');
 }
+
 
 async function main() {
     await dl('tonclient.wasm', `tonclient_${bv}_wasm`);
