@@ -21,10 +21,12 @@
 	},
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
+		"error-polyfill": "^0.1.2",
+		"javascript-biginteger": "^0.9.2",
 		"jest-lite": "^1.0.0-alpha.4",
 		"opentracing": "^0.14.4",
-		"ton-client-web-js": "../",
-		"ton-client-js": "^0"
+		"ton-client-js": "^0",
+		"ton-client-web-js": "../"
 	},
 	"devDependencies": {
 		"puppeteer": "^4.0.1",

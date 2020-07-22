@@ -1,17 +1,17 @@
 import {initTONClient as initTC} from 'ton-client-web-js';
 import * as j from 'jest-lite';
-// import {Buffer as buffer} from 'buffer';
-// import * as p1 from 'error-polyfill';
+import {Buffer as buffer} from 'buffer';
+import * as p1 from 'error-polyfill';
 // import * as p2 from 'react-native-console-time-polyfill';
-// import bigInt from 'big-integer';
+import {BigInteger as bigInt} from 'javascript-biginteger';
 import assets from './assets';
 
-// if (!global.BigInt) {
-//     global.BigInt = bigInt;
-// }
-// if (!global.Buffer) {
-//     global.Buffer = buffer;
-// }
+if (bigInt && !global.BigInt) {
+    global.BigInt = bigInt;
+}
+if (buffer && !global.Buffer) {
+    global.Buffer = buffer;
+}
 
 global.jest = j;
 ['test', 'expect', 'afterAll', 'afterEach', 'beforeAll', 'beforeEach'].forEach((name) => {
@@ -32,7 +32,7 @@ j.setTimeout(200000);
 // platform
 
 async function findGiverKeys() {
-    return null;
+    return assets.giverKeys;
 }
 
 async function writeGiverKeys(keys) {

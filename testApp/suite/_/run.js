@@ -13,6 +13,20 @@ import run_local_suite from '../run-local.js';
 import test_error_messages_suite from '../test-error-messages.js';
 //IMPORTS
 
+function errorToJson(error) {
+    const json = {};
+    Object.entries(error).forEach(([key, value]) => {
+        json[key] = value;
+    });
+    if (error.message && !json.message) {
+        json.message = error.message;
+    }
+    if (Object.keys(json).length === 0) {
+        json.message = error.toString();
+    }
+    return json;
+}
+
 export async function startTests(onStateChange) {
     try {
         await tests.init();
@@ -38,8 +52,8 @@ export async function startTests(onStateChange) {
                 state.failed += 1;
                 console.log(`[TEST_FAILURE] ${JSON.stringify({
                     name: event.test.name,
-                    error: event.error,
-                    errors: event.test.errors,
+                    error: errorToJson(event.error),
+                    errors: event.test.errors && event.test.errors.map(errorToJson),
                 })}`);
             } else {
                 return;

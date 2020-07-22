@@ -109,12 +109,17 @@ function rewriteRunScript() {
         }
     });
 
+    const giverKeysPath = path.resolve(os.homedir(), 'giverKeys.json');
+    const giverKeys = fs.existsSync(giverKeysPath)
+        ? JSON.parse(fs.readFileSync(giverKeysPath, {encoding:'utf8'}))
+        : null;
     const assets = [
         `export default {`,
         `    env: {`,
         `        USE_NODE_SE: '${process.env.USE_NODE_SE || 'true'}',`,
         `        TON_NETWORK_ADDRESS: '${replaceLocalhost(process.env.TON_NETWORK_ADDRESS || 'http://127.0.0.1:8080')}',`,
         `    },`,
+        `    giverKeys: ${JSON.stringify(giverKeys)},`,
         `    contracts: {`,
     ];
     const collectContracts = (abiVersion) => {
