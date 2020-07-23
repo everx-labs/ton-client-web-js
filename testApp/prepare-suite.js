@@ -109,12 +109,17 @@ function rewriteRunScript() {
         }
     });
 
+    const giverKeysPath = path.resolve(os.homedir(), 'giverKeys.json');
+    const giverKeys = fs.existsSync(giverKeysPath)
+        ? JSON.parse(fs.readFileSync(giverKeysPath, { encoding: 'utf8' }))
+        : null;
     const assets = [
         `export default {`,
         `    env: {`,
         `        USE_NODE_SE: '${process.env.USE_NODE_SE || 'true'}',`,
         `        TON_NETWORK_ADDRESS: '${replaceLocalhost(process.env.TON_NETWORK_ADDRESS || 'http://127.0.0.1:8080')}',`,
         `    },`,
+        `    giverKeys: ${JSON.stringify(giverKeys)},`,
         `    contracts: {`,
     ];
     const collectContracts = (abiVersion) => {
@@ -164,24 +169,32 @@ function copyTestSuite() {
     rewriteRunScript();
 }
 
+function removeTgzFiles() {
+    for (const tgz of getTgzNames()) {
+        console.log('Remove', tgz);
+        fs.unlinkSync(path.resolve(__dirname, tgz));
+    }
+}
 
 (async () => {
-    for (const tgz of getTgzNames()) {
-        console.log('Remove ', tgz);
-        fs.unlinkSync(path.resolve(__dirname, tgz));
-    }
-    if (fs.existsSync(path.resolve(__dirname, '..', '..', 'ton-client-js'))) {
-        await run('npm', 'pack', '../../ton-client-js');
-    }
-    await run('npm', 'pack', '../');
-    for (const tgz of getTgzNames()) {
-        console.log('Install ', tgz);
-        await run('npm', 'install', tgz, '--no-save', '--force');
-        console.log('Remove ', tgz);
-        fs.unlinkSync(path.resolve(__dirname, tgz));
-    }
+    console.log('Save', 'package.json');
+    const packageJson = fs.readFileSync(path.resolve(__dirname, 'package.json'));
+    try {
+        removeTgzFiles();
 
-    copyTestSuite();
+        if (fs.existsSync(path.resolve(__dirname, '..', '..', 'ton-client-js'))) {
+            await run('npm', 'pack', '../../ton-client-js');
+        }
+        await run('npm', 'pack', '../');
+
+        const tgzNames = getTgzNames();
+        console.log('Install', tgzNames.join(' '));
+        await run('npm', 'install', '--force', ...tgzNames);
+
+        removeTgzFiles();
+        copyTestSuite();
+    } finally {
+        console.log('Restore', 'package.json');
+        fs.writeFileSync(path.resolve(__dirname, 'package.json'), packageJson);
+    }
 })();
-
-
