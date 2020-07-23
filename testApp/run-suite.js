@@ -86,6 +86,7 @@ function onOutputLine(line) {
         console.log(`failure: ${failure}`);
         process.exit(failure > 0 ? 1 : 0);
     }
+    console.log(line);
 }
 
 let logText = '';
@@ -101,7 +102,7 @@ function onTestLog(text) {
 }
 
 function startWebPackDevServer() {
-    return new Promise((resolve, reject) => { 
+    return new Promise((resolve, reject) => {
         run(
             path.resolve(__dirname, 'node_modules', '.bin', 'webpack-dev-server'),
             ['-d', '--config', 'webpack.config.js', '--progress', '--colors', '--host', '127.0.0.1'],

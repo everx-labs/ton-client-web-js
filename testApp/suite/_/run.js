@@ -30,6 +30,8 @@ function errorToJson(error) {
 export async function startTests(onStateChange) {
     try {
         await tests.init();
+        jest.setTimeout(300000);
+
         const state = {
             version: await tests.client.config.getVersion(),
             passed: 0,
