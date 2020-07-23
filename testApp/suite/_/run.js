@@ -1,5 +1,5 @@
-import * as j from 'jest-lite';
-import {tests} from './init-tests';
+import { BigInteger as bigInt } from 'javascript-biginteger';
+import { tests } from './init-tests';
 
 //IMPORTS
 import aggregations_suite from '../aggregations.js';
@@ -12,6 +12,7 @@ import queries_suite from '../queries.js';
 import run_local_suite from '../run-local.js';
 import test_error_messages_suite from '../test-error-messages.js';
 //IMPORTS
+
 
 function errorToJson(error) {
     const json = {};
@@ -40,7 +41,7 @@ export async function startTests(onStateChange) {
         };
         onStateChange(state);
 
-        j.addEventHandler((event) => {
+        jest.addEventHandler((event) => {
             if (event.name === 'test_start') {
                 console.log(`[TEST_START] ${JSON.stringify({
                     name: event.test.name,
@@ -63,7 +64,7 @@ export async function startTests(onStateChange) {
             onStateChange(state);
         });
         onStateChange(state);
-        j.run().then((results) => {
+        jest.run().then((results) => {
             results.forEach((result) => {
                 result.errors = result.errors.map((e) => {
                     return e.toString().replace(/\n\s+at\s+.*/gi, '')

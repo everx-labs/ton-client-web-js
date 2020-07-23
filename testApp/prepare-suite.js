@@ -111,7 +111,7 @@ function rewriteRunScript() {
 
     const giverKeysPath = path.resolve(os.homedir(), 'giverKeys.json');
     const giverKeys = fs.existsSync(giverKeysPath)
-        ? JSON.parse(fs.readFileSync(giverKeysPath, {encoding:'utf8'}))
+        ? JSON.parse(fs.readFileSync(giverKeysPath, { encoding: 'utf8' }))
         : null;
     const assets = [
         `export default {`,
@@ -198,5 +198,3 @@ function removeTgzFiles() {
         fs.writeFileSync(path.resolve(__dirname, 'package.json'), packageJson);
     }
 })();
-
-
