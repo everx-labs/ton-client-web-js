@@ -31,9 +31,11 @@ module.exports = {
                 test: /\.jsx?$/,
                 include: [
                     path.resolve('index.js'),
+                    path.resolve(__dirname, './suite'),
                     path.resolve(__dirname, './node_modules/webpack-dev-server'),
                     path.resolve(__dirname, './node_modules/ton-client-js'),
                     path.resolve(__dirname, './node_modules/ton-client-web-js'),
+                    path.resolve(__dirname, './node_modules/jest-lite'),
                 ],
                 loader: 'babel-loader',
                 query: {

@@ -1,10 +1,10 @@
 {
-	"name": "ton-client-web-js-example",
-	"version": "1.0.0",
-	"description": "TON Client Library for Web - Example",
+	"name": "ton-client-web-js-test-suite-runner",
+	"version": "0.25.0",
+	"description": "TON Client Library for Web - Test Suite Runner",
 	"scripts": {
-		"nmp install": "npm install",
-		"web": "webpack-dev-server -d --config webpack.config.js --progress --colors --host 0.0.0.0",
+		"npm install": "npm install",
+		"web": "webpack-dev-server -d --config webpack.config.js --progress --colors --host 127.0.0.1",
 		"web:bundle": "webpack -p --config webpack.config.js --progress --colors --display-error-details"
 	},
 	"keywords": [
@@ -21,9 +21,15 @@
 	},
 	"homepage": "https://ton.dev/node-se",
 	"dependencies": {
+		"error-polyfill": "^0.1.2",
+		"javascript-biginteger": "^0.9.2",
+		"jest-lite": "^1.0.0-alpha.4",
+		"opentracing": "^0.14.4",
+		"ton-client-js": "^0",
 		"ton-client-web-js": "../"
 	},
 	"devDependencies": {
+		"puppeteer": "^4.0.1",
 		"webpack": "4.41.5",
 		"webpack-cli": "3.3.10",
 		"webpack-dev-server": "3.10.1",
