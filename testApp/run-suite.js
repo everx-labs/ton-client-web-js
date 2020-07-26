@@ -119,7 +119,17 @@ function startWebPackDevServer() {
 
 async function main() {
     await startWebPackDevServer();
-    const browser = await puppeteer.launch();
+    // const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: [
+          // Required for Docker version of Puppeteer
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          // This will write shared memory files into /tmp instead of /dev/shm,
+          // because Docker’s default for /dev/shm is 64MB
+          '--disable-dev-shm-usage'
+        ]
+      });
     const page = await browser.newPage();
     page.on('console', (msg) => {
         const text = `${msg.text()}\n`;
