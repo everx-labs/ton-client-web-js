@@ -119,7 +119,6 @@ function startWebPackDevServer() {
 
 async function main() {
     await startWebPackDevServer();
-    // const browser = await puppeteer.launch();
     const browser = await puppeteer.launch({
         args: [
           // Required for Docker version of Puppeteer
