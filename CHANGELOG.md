@@ -1,6 +1,11 @@
 # Release Notes
 All notable changes to this project will be documented in this file.
 
+## 0.25.1 - Jul 27, 2020
+
+### Fixed
+- testApp: run puppeeter with '--no-sandbox --disable-setuid-sandbox' to meet Docker requirements
+
 ## 0.25.0 - Jul 8, 2020
 
 ### New
