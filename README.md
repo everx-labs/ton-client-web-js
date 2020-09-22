@@ -17,7 +17,7 @@ This package supports web (browser), mobile-web, and server (Node.js) clients.
 
 
 **Attention!** Because the JS library uses pre-compiled [core sdk rust library](https://github.com/tonlabs/TON-SDK), you need to 
-install it via platform-dependable [node-js package](https://www.npmjs.com/package/ton-client-js)  that will automatically 
+install it via platform-dependable [web package](https://www.npmjs.com/package/ton-client-web-js)  that will automatically 
 install common js package +  download and link pre-compiled rust core to your project:
 
 
@@ -25,7 +25,7 @@ install common js package +  download and link pre-compiled rust core to your pr
 npm install ton-client-web-js
 ```
 
-To get started using TON Javascript SDK, see [Add SDK to your Application](https://docs.ton.dev/86757ecb2/p/61b5eb-nodejs).
+To get started using TON Javascript SDK, see [Add SDK to your Application](https://docs.ton.dev/86757ecb2/p/622af4-web).
 
 
 # Using `ton-client-web-js`
