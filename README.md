@@ -1,10 +1,6 @@
-# ton-client-web-js
-
-TON Labs SDK Client Library for Web
-
-![npm publish](https://github.com/tonlabs/ton-client-web-js/workflows/npm%20publish/badge.svg)
-
 # TON Javascript Web SDK
+
+![npm publish](https://github.com/tonlabs/ton-client-web-js/workflows/npm%20publish/badge.svg) 
 
 **Community links:**
 
