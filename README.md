@@ -1,6 +1,6 @@
 # TON Javascript Web SDK
 
-![npm publish](https://github.com/tonlabs/ton-client-web-js/workflows/npm%20publish/badge.svg) 
+[![npm publish](https://github.com/tonlabs/ton-client-web-js/workflows/npm%20publish/badge.svg)](https://www.npmjs.com/package/ton-client-web-js)
 
 **Community links:**
 
